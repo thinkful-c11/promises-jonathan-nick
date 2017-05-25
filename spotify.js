@@ -20,5 +20,7 @@ var getArtist = function(name) {
   }).then(item => {
     artist = item.artists.items[0];
     return artist;
-  });
+  }).catch(err => {
+    console.log(err);
+  })
 };
