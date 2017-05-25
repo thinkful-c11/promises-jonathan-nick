@@ -19,8 +19,11 @@ var getArtist = function(name) {
     type:'artist'
   }).then(item => {
     artist = item.artists.items[0];
+    return getFromApi(`artists/${artist.id}/related-artists`);
+  }).then(item => {
+    artist.related = item.artists;
     return artist;
   }).catch(err => {
     console.log(err);
-  })
+  });
 };
