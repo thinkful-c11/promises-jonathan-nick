@@ -22,6 +22,18 @@ var getArtist = function(name) {
     return getFromApi(`artists/${artist.id}/related-artists`);
   }).then(item => {
     artist.related = item.artists;
+    console.log(artist.related);
+    let allPromise = Promise.all(artist.related.map(index => {
+      return getFromApi(`artists/${index.id}/top-tracks`, {
+        country: 'US'
+      });
+    }));
+    console.log(allPromise);
+    return allPromise;
+  }).then(item => {
+    artist.related.forEach(index => {
+      index.tracks = item[artist.related.indexOf(index)].tracks;
+    });
     return artist;
   }).catch(err => {
     console.log(err);
